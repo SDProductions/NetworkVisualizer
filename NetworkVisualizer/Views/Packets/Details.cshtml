@@ -1,0 +1,42 @@
+﻿@model NetworkVisualizer.Models.Packet
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Packet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PacketType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PacketType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationHostname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DestinationHostname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OriginHostname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OriginHostname)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

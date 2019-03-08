@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using NetworkVisualizer.Models;
 
 namespace NetworkVisualizer
 {
@@ -33,6 +35,9 @@ namespace NetworkVisualizer
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<NetworkVisualizerContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("NetworkVisualizerContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +62,10 @@ namespace NetworkVisualizer
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    "packets",
+                    "packets",
+                    new { controller = "Packets", action = "Index", id = "" });
             });
         }
     }
