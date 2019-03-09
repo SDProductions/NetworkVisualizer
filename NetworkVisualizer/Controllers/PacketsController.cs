@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NetworkVisualizer.Models;
 
@@ -24,24 +21,6 @@ namespace NetworkVisualizer.Controllers
             return View(await _context.Packet.ToListAsync());
         }
 
-        // GET: Packets/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var packet = await _context.Packet
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (packet == null)
-            {
-                return NotFound();
-            }
-
-            return View(packet);
-        }
-
         // GET: Packets/Create
         public IActionResult Create()
         {
@@ -59,57 +38,6 @@ namespace NetworkVisualizer.Controllers
             {
                 _context.Add(packet);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(packet);
-        }
-
-        // GET: Packets/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var packet = await _context.Packet.FindAsync(id);
-            if (packet == null)
-            {
-                return NotFound();
-            }
-            return View(packet);
-        }
-
-        // POST: Packets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateTime,PacketType,DestinationHostname,OriginHostname")] Packet packet)
-        {
-            if (id != packet.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(packet);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PacketExists(packet.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
             return View(packet);

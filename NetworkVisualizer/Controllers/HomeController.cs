@@ -9,17 +9,20 @@ namespace NetworkVisualizer.Controllers
 {
     public class HomeController : Controller
     {
+        // Gets context so DB is accessible within this file
         private readonly NetworkVisualizerContext _context;
         public HomeController(NetworkVisualizerContext context)
         {
             _context = context; 
         }
 
+        // GET Index: Display main page
         public IActionResult Index()
         {
             return View();
         }
 
+        // POST Index: Add list of packets to DB
         [HttpPost]
         public async Task Index(string password, string json)
         {
