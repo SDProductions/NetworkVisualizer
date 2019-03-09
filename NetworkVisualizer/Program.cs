@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace NetworkVisualizer
 {
@@ -14,6 +9,13 @@ namespace NetworkVisualizer
     {
         public static void Main(string[] args)
         {
+            if (!File.Exists("config.json"))
+                File.WriteAllText("config.json", JsonConvert.SerializeObject(
+                    new Config.AppConfig { HttpPostPassword = "HitlerDidNothingWrong.bmp" }, Formatting.Indented));
+
+            string json = File.ReadAllText("config.json");
+            Config.config = JsonConvert.DeserializeObject<Config.AppConfig>(json);
+
             CreateWebHostBuilder(args).Build().Run();
         }
 
