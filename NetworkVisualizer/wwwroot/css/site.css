@@ -27,7 +27,19 @@
 }
 
 .contentBlock {
-    margin: 20px 100px;
+    margin: 20px 150px;
+}
+
+h2 {
+    color: #666666;
+}
+
+p {
+    color: #888888;
+}
+
+a {
+    color: #76a5af;
 }
 
 footer {

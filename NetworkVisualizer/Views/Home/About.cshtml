@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"]</h2>
+
+<p>NetworkVisualizer is developed and maintained by <a href="https://sdproductions.github.io">SDProductions</a>.</p>
+<p>NetworkVisualizer is built on the ASP.NET Core 2.1 MVC framework, using an Entity Framework Core database as our backend. The site itself does none of the packet sniffing - this is done on a separate utility on the target network. This site receives information through HttpPOST requests and has a basic layer of security to prevent unauthorized access. Information is stored for up to 90 days on our servers before it is deleted, and is used to generate charts and graphs found on the main page.</p>
+<p>If you are interested in finding more about how NetworkVisualizer works, or want to try it for yourself, the GitHub repo can be found <a href="https://github.com/SDBagel/NetworkVisualizer">here</a>.</p>

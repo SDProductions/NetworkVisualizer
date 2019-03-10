@@ -63,6 +63,14 @@ namespace NetworkVisualizer
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
+                    "about",
+                    "about",
+                    new { controller = "Home", action = "About", id = "" });
+                routes.MapRoute(
+                    "privacy",
+                    "privacy",
+                    new { controller = "Home", action = "Privacy", id = "" });
+                routes.MapRoute(
                     "packets",
                     "packets",
                     new { controller = "Packets", action = "Index", id = "" });
