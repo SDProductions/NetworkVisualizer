@@ -72,9 +72,9 @@ namespace NetworkVisualizer
                     "about",
                     new { controller = "Home", action = "About", id = "" });
                 routes.MapRoute(
-                    "privacy",
-                    "privacy",
-                    new { controller = "Home", action = "Privacy", id = "" });
+                    "terms",
+                    "terms",
+                    new { controller = "Home", action = "Terms", id = "" });
                 routes.MapRoute(
                     "packets",
                     "packets",

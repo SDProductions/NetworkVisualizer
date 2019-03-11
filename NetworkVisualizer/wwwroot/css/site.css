@@ -3,31 +3,20 @@
     font-size: 20px;
 }
 
-#titleBlock {
+#banner {
+    display: block;
+    width: 500px;
     margin: auto;
-    margin-bottom: 4vh;
-    width: 600px;
-}
-
-#titleBlock img {
-    float: left;
-    height: 105px;
-    width: 105px;
-}
-
-#titleBlock h1 {
-    font-size: 47px;
-    margin-left: 135px;
-}
-
-#titleBlock h2 {
-    font-size: 28px;
-    margin-top: 15px;
-    margin-left: 135px;
+    margin-top: 1vh;
 }
 
 .contentBlock {
     margin: 20px 150px;
+    margin-top: 0;
+}
+
+#chart-div {
+    width: 100%;
 }
 
 h2 {
@@ -36,6 +25,7 @@ h2 {
 
 p {
     color: #888888;
+    padding-top: 8px;
 }
 
 a {
@@ -43,6 +33,10 @@ a {
 }
 
 footer {
+    background-color: #eeeeee;
+    height: 70px;
+    width: 100%;
+    padding-top: 10px;
     position: fixed;
-    bottom: 5vh;
+    bottom: 0;
 }

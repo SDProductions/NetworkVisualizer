@@ -16,20 +16,15 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
-    <div id="titleBlock">
-        <a asp-action="Index"><img src="~/images/logo.png" /></a>
-        <h1>NetworkVisualizer</h1>
-        <h2>LAN-Wide Netstat on Demand</h2>
-    </div>
+<body onresize="drawChart()">
+    <a href="~/"><img id="banner" src="~/images/banner.svg" /></a>
     <hr />
     <div class="contentBlock">
         @RenderBody()
-        <footer>
-            <hr />
-            <p>&copy; 2019 - SDProductions & Associates - <a href="~/About">About</a> - <a href="~/Privacy">Privacy Policy</a></p>
-        </footer>
     </div>
+    <footer>
+        <p class="text-center">&copy; 2019 - SDProductions & Associates - <a href="~/About">About</a> - <a href="~/Terms">Terms of Use</a></p>
+    </footer>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

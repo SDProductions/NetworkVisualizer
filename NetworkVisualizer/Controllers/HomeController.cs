@@ -43,7 +43,7 @@ namespace NetworkVisualizer.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Terms()
         {
             return View();
         }
