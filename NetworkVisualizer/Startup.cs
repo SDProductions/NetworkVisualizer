@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using NetworkVisualizer.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace NetworkVisualizer
 {
@@ -19,6 +20,10 @@ namespace NetworkVisualizer
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.production.json", optional: true)
+                .AddEnvironmentVariables();
         }
 
         public IConfiguration Configuration { get; }

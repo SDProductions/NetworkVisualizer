@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 NetworkVisualizer/config.json
+NetworkVisualizer/appsettings.production.json
+NetworkVisualizer/Properties/PublishProfiles/NetworkVisualizer - Web Deploy.pubxml
