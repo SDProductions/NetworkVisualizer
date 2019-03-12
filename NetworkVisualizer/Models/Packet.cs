@@ -9,7 +9,6 @@ namespace NetworkVisualizer.Models
         public int Id { get; set; }
 
         // Must be present and sent by packet sniffer
-        [DataType(DataType.Time)]
         public DateTime DateTime { get; set; }
         public string PacketType { get; set; }
         public string DestinationHostname { get; set; }

@@ -43,6 +43,8 @@ namespace NetworkVisualizer
 
             services.AddDbContext<NetworkVisualizerContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("NetworkVisualizerContext")));
+
+            services.AddHostedService<PruneDatabaseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
