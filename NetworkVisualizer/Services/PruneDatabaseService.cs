@@ -44,6 +44,7 @@ namespace NetworkVisualizer
                                            select packet).ToList();
 
                 _context.Packet.RemoveRange(oldPackets);
+
                 _context.SaveChanges();
             }
         }

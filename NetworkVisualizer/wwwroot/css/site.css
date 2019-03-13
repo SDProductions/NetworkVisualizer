@@ -11,7 +11,7 @@
 }
 
 .contentBlock {
-    margin: 20px 150px;
+    margin: 20px 100px;
     margin-top: 0;
 }
 
@@ -22,10 +22,13 @@
 h2 {
     color: #666666;
 }
+h3 {
+    color: #666666;
+}
 
 p {
     color: #888888;
-    padding-top: 5vh;
+    padding-top: 2vh;
 }
 
 a {
@@ -42,4 +45,18 @@ footer {
 }
 footer p {
     padding-top: 10px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    #banner {
+        width: 400px;
+    }
+    .contentBlock {
+        margin: 20px 40px;
+        margin-top: 0;
+    }
+    footer p {
+        font-size: 20px;
+    }
 }

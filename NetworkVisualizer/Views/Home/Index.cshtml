@@ -2,6 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 
@@ -11,24 +12,21 @@
       // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
 
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
+      // Callback that creates and populates a chart
       function drawChart() {
-          var data = google.visualization.arrayToDataTable([
-              ['Time', 'google.com', 'microsoft.com', 'github.com', 'azure.com', 'other sites'],
-              ['20:00', 1000, 400, 500, 800, 40],
-              ['21:00', 1170, 460, 60, 480, 90],
-              ['22:00', 660, 1120, 90, 100, 200],
-              ['23:00', 1030, 540, 200, 900, 10]
-          ]);
+          var jsonData = $.ajax({
+            url: "/Home/GenerateDatatableJson",
+            dataType: "json",
+            async: false
+          }).responseText;
+
+          var data = new google.visualization.DataTable(jsonData);
 
           var options = {
               fontName: "Trebuchet MS",
               colors: ['#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af'],
               isStacked: true,
-              title: 'Domain Visits Over Last 24 Hours (PLACEHOLDER)',
-              hAxis: { title: 'Time', titleTextStyle: { color: '#333' } },
+              theme: 'maximized',
               vAxis: { minValue: 0 },
               height: 550
           };
@@ -38,4 +36,5 @@
       }
 </script>
 
+<h2 class="text-center">Domain Visits over Past 24 Hours</h2>
 <div id="chart_div"></div>
