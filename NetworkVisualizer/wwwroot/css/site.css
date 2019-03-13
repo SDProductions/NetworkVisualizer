@@ -21,6 +21,7 @@
 
 h2 {
     color: #666666;
+    font-size: 24px;
 }
 h3 {
     color: #666666;
@@ -57,6 +58,7 @@ footer p {
         margin-top: 0;
     }
     footer p {
-        font-size: 20px;
+        font-size: 15px;
+        margin-bottom: 5px;
     }
 }
