@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetworkVisualizer.Models;
 using Newtonsoft.Json;
 using Google.DataTable.Net.Wrapper;
+using System;
 
 namespace NetworkVisualizer.Controllers
 {
@@ -79,18 +80,20 @@ namespace NetworkVisualizer.Controllers
 
         // POST Index: Add list of packets to DB
         [HttpPost]
-        public async Task Index(string password, string json)
+        public async Task Index(string destAddress)
         {
-            if (password != Config.config.HttpPostPassword)
-                return;
-
-            List<Packet> packets = JsonConvert.DeserializeObject<List<Packet>>(json);
+            Packet newPacket = new Packet
+            {
+                DateTime = DateTime.Now,
+                PacketType = null,
+                DestinationHostname = destAddress,
+                OriginHostname = null
+            };
 
             if (ModelState.IsValid)
-            {
-                _context.Packet.AddRange(packets);
-                await _context.SaveChangesAsync();
-            }
+                _context.Packet.Add(newPacket);
+
+            await _context.SaveChangesAsync();
         }
         
         public IActionResult About()
