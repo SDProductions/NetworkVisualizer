@@ -37,12 +37,12 @@ namespace NetworkVisualizer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login([Bind("Id,Username,Password")] User user)
         {
-            if (ModelState.IsValid && _context.User.Contains(_context.User.FirstOrDefault(
-                acc => acc.Username == user.Username && acc.Password == user.Password)))
+            if (ModelState.IsValid)
             {
                 Response.Cookies.Append("isLoggedIn", "true", new CookieOptions
                 {
                     Path = "/",
+                    IsEssential = true,
                     Expires = DateTime.Now.AddMinutes(5)
                 });
                 return Redirect("../packets");

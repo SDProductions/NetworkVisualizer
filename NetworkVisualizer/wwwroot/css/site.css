@@ -15,6 +15,13 @@
     margin-top: 0;
 }
 
+.login {
+    width: 50vw;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 #chart-div {
     width: 100%;
 }
@@ -56,6 +63,9 @@ footer p {
     .contentBlock {
         margin: 20px 40px;
         margin-top: 0;
+    }
+    .login {
+        width: 100%;
     }
     footer p {
         font-size: 15px;
