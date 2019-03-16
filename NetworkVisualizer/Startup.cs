@@ -77,10 +77,15 @@ namespace NetworkVisualizer
                     "terms",
                     "terms",
                     new { controller = "Home", action = "Terms", id = "" });
+
                 routes.MapRoute(
                     "packets",
                     "packets",
                     new { controller = "Packets", action = "Index", id = "" });
+                routes.MapRoute(
+                    "login",
+                    "login",
+                    new { controller = "Packets", action = "Login", id = "" });
             });
         }
     }

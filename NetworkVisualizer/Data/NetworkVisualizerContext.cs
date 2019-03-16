@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NetworkVisualizer.Models;
 
 namespace NetworkVisualizer.Models
 {
@@ -14,5 +15,7 @@ namespace NetworkVisualizer.Models
         }
 
         public DbSet<NetworkVisualizer.Models.Packet> Packet { get; set; }
+
+        public DbSet<NetworkVisualizer.Models.User> User { get; set; }
     }
 }
