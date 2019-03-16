@@ -37,7 +37,8 @@ namespace NetworkVisualizer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login([Bind("Id,Username,Password")] User user)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && _context.User.FirstOrDefault(
+                acc => acc.Username == user.Username && acc.Password == user.Password) != null)
             {
                 Response.Cookies.Append("isLoggedIn", "true", new CookieOptions
                 {
