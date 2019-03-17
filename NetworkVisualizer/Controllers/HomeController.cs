@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetworkVisualizer.Models;
 using Google.DataTable.Net.Wrapper;
 using System;
+using Newtonsoft.Json;
 
 namespace NetworkVisualizer.Controllers
 {
@@ -79,20 +80,33 @@ namespace NetworkVisualizer.Controllers
 
         // POST Index: Add list of packets to DB
         [HttpPost]
-        public async Task Index(string destAddress)
+        public string Index(string password, string json)
         {
-            Packet newPacket = new Packet
+            // Check password and reject if mismatch
+            if (password != Config.config.HttpPostPassword)
+                return "Mismatched password.";
+
+            // Get list of pseudopacket-objects from json
+            List<Tuple<string, string, string>> packets = 
+                JsonConvert.DeserializeObject<List<Tuple<string, string, string>>>(json);
+
+            // Convert to packet object with PST time, add to db
+            foreach (Tuple<string, string, string> packet in packets)
             {
-                DateTime = DateTime.Now,
-                PacketType = null,
-                DestinationHostname = destAddress,
-                OriginHostname = null
-            };
+                Packet newPacket = new Packet
+                {
+                    DateTime = DateTime.Now.ToUniversalTime().AddHours(-7),
+                    PacketType = packet.Item1,
+                    DestinationHostname = packet.Item2,
+                    OriginHostname = packet.Item3
+                };
 
-            if (ModelState.IsValid)
-                _context.Packet.Add(newPacket);
-
-            await _context.SaveChangesAsync();
+                if (ModelState.IsValid)
+                    _context.Packet.Add(newPacket);
+            }
+            
+            _context.SaveChanges();
+            return "Operation successful.";
         }
         
         public IActionResult About()
