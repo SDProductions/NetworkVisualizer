@@ -82,11 +82,10 @@ namespace NetworkVisualizer
                     "login",
                     "login",
                     new { controller = "Admin", action = "Login", id = "" });
-
                 routes.MapRoute(
                     "packets",
                     "packets",
-                    new { controller = "Packets", action = "Index", id = "" });
+                    new { controller = "Admin", action = "PacketList", id = "" });
 
                 routes.MapRoute(
                     "users",

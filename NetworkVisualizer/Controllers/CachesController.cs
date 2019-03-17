@@ -44,7 +44,7 @@ namespace NetworkVisualizer.Controllers
         public IActionResult Create()
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             return View();
         }
@@ -69,7 +69,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             if (id == null)
                 return NotFound();
@@ -88,7 +88,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             var cache = await _context.Cache.FindAsync(id);
             _context.Cache.Remove(cache);

@@ -26,7 +26,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Index()
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             return View(await _context.User.ToListAsync());
         }
@@ -35,7 +35,7 @@ namespace NetworkVisualizer.Controllers
         public IActionResult Create()
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             return View();
         }
@@ -48,7 +48,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Create([Bind("Id,Username,Password")] User user)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             if (id == null)
                 return NotFound();
@@ -82,7 +82,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password")] User user)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             if (id != user.Id)
                 return NotFound();
@@ -110,7 +110,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             if (id == null)
                 return NotFound();
@@ -129,7 +129,7 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);

@@ -45,7 +45,7 @@ namespace NetworkVisualizer.Controllers
                     IsEssential = true,
                     Expires = DateTime.Now.AddMinutes(5)
                 });
-                return Redirect("../admin");
+                return Redirect("~/admin");
             }
 
             return View();
@@ -55,7 +55,7 @@ namespace NetworkVisualizer.Controllers
         public IActionResult Index()
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             return View();
         }
@@ -64,9 +64,71 @@ namespace NetworkVisualizer.Controllers
         public async Task<IActionResult> PacketList()
         {
             if (!LoggedIn())
-                return Redirect("../login");
+                return Redirect("~/login");
 
             return View(await _context.Packet.ToListAsync());
+        }
+
+        // GET: PacketCreate
+        public IActionResult PacketCreate()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View();
+        }
+
+        // POST: PacketCreate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PacketCreate([Bind("Id,DateTime,PacketType,DestinationHostname,OriginHostname")] Packet packet)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(packet);
+                await _context.SaveChangesAsync();
+                return Redirect("~/packets");
+            }
+            return View(packet);
+        }
+
+        // GET: PacketDelete
+        public async Task<IActionResult> PacketDelete(int? id)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (id == null)
+                return NotFound();
+
+            var packet = await _context.Packet
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (packet == null)
+                return NotFound();
+
+            return View(packet);
+        }
+
+        // POST: PacketDelete/5
+        [HttpPost, ActionName("PacketDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (!LoggedIn())
+                Redirect("~/login");
+
+            var packet = await _context.Packet.FindAsync(id);
+            _context.Packet.Remove(packet);
+            await _context.SaveChangesAsync();
+            return Redirect("~/packets");
+        }
+
+        private bool PacketExists(int id)
+        {
+            return _context.Packet.Any(e => e.Id == id);
         }
     }
 }
