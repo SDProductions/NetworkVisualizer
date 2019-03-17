@@ -22,6 +22,7 @@ namespace NetworkVisualizer
             _scopeFactory = scopeFactory;
         }
 
+        // Every 5 minutes run DoWork
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("PruneDatabaseService is starting.");
@@ -32,6 +33,7 @@ namespace NetworkVisualizer
             return Task.CompletedTask;
         }
 
+        // Prune database
         private void DoWork(object state)
         {
             _logger.LogInformation("PruneDatabaseService is working.");
@@ -39,12 +41,18 @@ namespace NetworkVisualizer
             using (var scope = _scopeFactory.CreateScope())
             {
                 var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
+
+                // Get packets older than 24 hours and expired caches
                 List<Packet> oldPackets = (from packet in _context.Packet
                                            where DateTime.Now.Subtract(packet.DateTime) >= TimeSpan.FromHours(24)
                                            select packet).ToList();
+                List<Cache> oldCache = (from cache in _context.Cache
+                                        where DateTime.Now > cache.ExpireTime
+                                        select cache).ToList();
 
+                // Remove these and save changes
                 _context.Packet.RemoveRange(oldPackets);
-
+                _context.Cache.RemoveRange(oldCache);
                 _context.SaveChanges();
             }
         }

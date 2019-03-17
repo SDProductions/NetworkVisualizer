@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using NetworkVisualizer.Models;
+using NetworkVisualizer.Services;
 
 namespace NetworkVisualizer
 {
@@ -39,6 +40,7 @@ namespace NetworkVisualizer
                     options.UseSqlServer(Configuration.GetConnectionString("NetworkVisualizerContext")));
 
             services.AddHostedService<PruneDatabaseService>();
+            services.AddHostedService<UpdateGraphsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

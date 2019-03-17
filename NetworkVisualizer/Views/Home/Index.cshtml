@@ -12,7 +12,7 @@
       // Callback that creates and populates a chart
       function drawChart() {
           var jsonData = $.ajax({
-            url: "/Home/GenerateDatatableJson",
+            url: "/Caches/GetLatestMainGraph",
             dataType: "json",
             async: false
           }).responseText;
