@@ -42,12 +42,14 @@ namespace NetworkVisualizer.Controllers
             }
             dt.AddColumn(new Column(ColumnType.Number, "other sites", "other sites"));
 
-            for (int t = 0; t < 24; t++)
+            // Create datapoints for every hour
+            for (int t = 0; t <= 24; t++)
             {
                 Row r = dt.NewRow();
-                List<int> domainSearches = TopDomainSearches(topDomains, t);
+                DateTime targetDate = DateTime.UtcNow.AddHours(t-7).AddDays(-1);
+                List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
 
-                r.AddCell(new Cell($"{t}:00"));
+                r.AddCell(new Cell($"{targetDate.Hour}:00"));
                 foreach (int s in domainSearches)
                 {
                     r.AddCell(new Cell(s));
@@ -59,7 +61,7 @@ namespace NetworkVisualizer.Controllers
             return dt.GetJson();
         }
 
-        private List<int> TopDomainSearches(List<string> domains, int hour)
+        private List<int> TopDomainSearches(List<string> domains, DateTime date)
         {
             List<int> searches = new List<int>();
             int total = 0;
@@ -67,24 +69,31 @@ namespace NetworkVisualizer.Controllers
             foreach (string domain in domains)
             {
                 int numberSearched = (from packet in _context.Packet
-                                      where packet.DestinationHostname == domain && packet.DateTime.Hour == hour
+                                      where packet.DestinationHostname == domain 
+                                      && packet.DateTime.Hour == date.Hour
+                                      && packet.DateTime.Day == date.Day
                                       select packet).Count();
                 total += numberSearched;
                 searches.Add(numberSearched);
             }
 
-            searches.Add(0);
+            int otherSearched = (from packet in _context.Packet
+                                 where !domains.Contains(packet.DestinationHostname)
+                                 && packet.DateTime.Hour == date.Hour
+                                 && packet.DateTime.Day == date.Day
+                                 select packet).Count();
+            searches.Add(otherSearched);
 
             return searches;
         }
 
         // POST Index: Add list of packets to DB
         [HttpPost]
-        public string Index(string password, string json)
+        public string Index(string json)
         {
             // Check password and reject if mismatch
-            if (password != Config.config.HttpPostPassword)
-                return "Mismatched password.";
+            /*if (password != Config.config.HttpPostPassword)
+                return "Mismatched password.";*/
 
             // Get list of pseudopacket-objects from json
             List<Tuple<string, string, string>> packets = 
@@ -95,7 +104,7 @@ namespace NetworkVisualizer.Controllers
             {
                 Packet newPacket = new Packet
                 {
-                    DateTime = DateTime.Now.ToUniversalTime().AddHours(-7),
+                    DateTime = DateTime.UtcNow.AddHours(-7),
                     PacketType = packet.Item1,
                     DestinationHostname = packet.Item2,
                     OriginHostname = packet.Item3
