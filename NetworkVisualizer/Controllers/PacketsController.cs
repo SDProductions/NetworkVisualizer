@@ -26,32 +26,6 @@ namespace NetworkVisualizer.Controllers
             return false;
         }
 
-        // GET: Login
-        public IActionResult Login()
-        {
-            return View();
-        }
-        
-        // POST: Login with user info, if in db, add a login cookie
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login([Bind("Id,Username,Password")] User user)
-        {
-            if (ModelState.IsValid && _context.User.FirstOrDefault(
-                acc => acc.Username == user.Username && acc.Password == user.Password) != null)
-            {
-                Response.Cookies.Append("isLoggedIn", "true", new CookieOptions
-                {
-                    Path = "/",
-                    IsEssential = true,
-                    Expires = DateTime.Now.AddMinutes(5)
-                });
-                return Redirect("../packets");
-            }
-
-            return View();
-        }
-
         // GET: Packets
         public async Task<IActionResult> Index()
         {

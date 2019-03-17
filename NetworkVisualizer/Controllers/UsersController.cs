@@ -9,7 +9,6 @@ namespace NetworkVisualizer.Controllers
     public class UsersController : Controller
     {
         private readonly NetworkVisualizerContext _context;
-
         public UsersController(NetworkVisualizerContext context)
         {
             _context = context;

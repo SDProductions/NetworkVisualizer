@@ -75,13 +75,28 @@ namespace NetworkVisualizer
                     new { controller = "Home", action = "Terms", id = "" });
 
                 routes.MapRoute(
-                    "packets",
-                    "packets",
-                    new { controller = "Packets", action = "Index", id = "" });
+                    "admin",
+                    "admin",
+                    new { controller = "Admin", action = "Index", id = "" });
                 routes.MapRoute(
                     "login",
                     "login",
-                    new { controller = "Packets", action = "Login", id = "" });
+                    new { controller = "Admin", action = "Login", id = "" });
+
+                routes.MapRoute(
+                    "packets",
+                    "packets",
+                    new { controller = "Packets", action = "Index", id = "" });
+
+                routes.MapRoute(
+                    "users",
+                    "users",
+                    new { controller = "Users", action = "Index", id = "" });
+
+                routes.MapRoute(
+                    "cache",
+                    "cache",
+                    new { controller = "Caches", action = "Index", id = "" });
             });
         }
     }

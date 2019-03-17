@@ -1,0 +1,52 @@
+﻿@model IEnumerable<NetworkVisualizer.Models.Packet>
+
+@{
+    ViewData["Title"] = "Packets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Packets</h2>
+
+<p>
+    <a asp-action="PacketCreate">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PacketType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestinationHostname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OriginHostname)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PacketType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationHostname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginHostname)
+            </td>
+            <td>
+                <a asp-action="PacketDelete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
