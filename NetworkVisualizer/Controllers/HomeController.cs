@@ -37,12 +37,12 @@ namespace NetworkVisualizer.Controllers
             List<Tuple<string, string, string>> packets = 
                 JsonConvert.DeserializeObject<List<Tuple<string, string, string>>>(json);
 
-            // Convert to packet object with PST time, add to DB
+            // Convert to packet, add to DB
             foreach (Tuple<string, string, string> packet in packets)
             {
                 Packet newPacket = new Packet
                 {
-                    DateTime = DateTime.UtcNow.AddHours(-7),
+                    DateTime = DateTime.Now,
                     PacketType = packet.Item1,
                     DestinationHostname = packet.Item2,
                     OriginHostname = packet.Item3

@@ -77,10 +77,10 @@ namespace NetworkVisualizer.Services
             dt.AddColumn(new Column(ColumnType.Number, "other sites", "other sites"));
 
             // Create datapoints for every hour
-            for (int t = 0; t <= 24; t++)
+            for (int t = 0; t < 24; t++)
             {
                 Row r = dt.NewRow();
-                DateTime targetDate = DateTime.UtcNow.AddHours(t - 7).AddDays(-1);
+                DateTime targetDate = DateTime.Now.AddHours(t + 1).AddDays(-1);
                 List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
 
                 r.AddCell(new Cell($"{targetDate.Hour}:00"));
@@ -109,7 +109,6 @@ namespace NetworkVisualizer.Services
                     int numberSearched = (from packet in _context.Packet
                                           where packet.DestinationHostname == domain
                                           && packet.DateTime.Hour == date.Hour
-                                          && packet.DateTime.Day == date.Day
                                           select packet).Count();
                     total += numberSearched;
                     searches.Add(numberSearched);
