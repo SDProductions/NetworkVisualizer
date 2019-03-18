@@ -41,6 +41,7 @@ namespace NetworkVisualizer.Services
             {
                 var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
 
+                // Add generated graphs for each graph
                 _context.Cache.Add(new Cache
                 {
                     ExpireTime = DateTime.Now.AddDays(1),
@@ -77,10 +78,10 @@ namespace NetworkVisualizer.Services
             dt.AddColumn(new Column(ColumnType.Number, "other sites", "other sites"));
 
             // Create datapoints for every hour
-            for (int t = 0; t < 24; t++)
+            for (int t = 1; t < 25; t++)
             {
                 Row r = dt.NewRow();
-                DateTime targetDate = DateTime.Now.AddHours(t + 1).AddDays(-1);
+                DateTime targetDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t).Subtract(TimeSpan.FromHours(7));
                 List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
 
                 r.AddCell(new Cell($"{targetDate.Hour}:00"));
