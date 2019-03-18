@@ -86,11 +86,10 @@ namespace NetworkVisualizer
                     "packets",
                     "packets",
                     new { controller = "Admin", action = "PacketList", id = "" });
-
                 routes.MapRoute(
                     "users",
                     "users",
-                    new { controller = "Users", action = "Index", id = "" });
+                    new { controller = "Admin", action = "UserList", id = "" });
 
                 routes.MapRoute(
                     "cache",

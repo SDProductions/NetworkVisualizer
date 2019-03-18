@@ -112,10 +112,10 @@ namespace NetworkVisualizer.Controllers
             return View(packet);
         }
 
-        // POST: PacketDelete/5
+        // POST: PacketDelete
         [HttpPost, ActionName("PacketDelete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> PacketDeleteConfirmed(int id)
         {
             if (!LoggedIn())
                 Redirect("~/login");
@@ -129,6 +129,122 @@ namespace NetworkVisualizer.Controllers
         private bool PacketExists(int id)
         {
             return _context.Packet.Any(e => e.Id == id);
+        }
+
+        // GET: UserList
+        public async Task<IActionResult> UserList()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View(await _context.User.ToListAsync());
+        }
+
+        // GET: UserCreate
+        public IActionResult UserCreate()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View();
+        }
+
+        // POST: UserCreate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserCreate([Bind("Id,Username,Password")] User user)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return Redirect("~/userlist");
+            }
+            return View(user);
+        }
+
+        // GET: UserDelete
+        public async Task<IActionResult> UserDelete(int? id)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (id == null)
+                return NotFound();
+
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
+                return NotFound();
+
+            return View(user);
+        }
+
+        // POST: UserDelete
+        [HttpPost, ActionName("UserDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserDeleteConfirmed(int id)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            var user = await _context.User.FindAsync(id);
+            _context.User.Remove(user);
+            await _context.SaveChangesAsync();
+            return Redirect("~/userlist");
+        }
+
+        // GET: UserEdit
+        public async Task<IActionResult> UserEdit(int? id)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (id == null)
+                return NotFound();
+
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+                return NotFound();
+            return View(user);
+        }
+
+        // POST: UserEdit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UserEdit(int id, [Bind("Id,Username,Password")] User user)
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            if (id != user.Id)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.Id))
+                        return NotFound();
+                    else
+                        throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(user);
+        }
+
+        private bool UserExists(int id)
+        {
+            return _context.User.Any(e => e.Id == id);
         }
     }
 }
