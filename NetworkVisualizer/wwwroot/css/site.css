@@ -71,7 +71,7 @@ footer p {
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     #banner {
-        width: 400px;
+        width: 380px;
     }
     .contentBlock {
         margin: 20px 40px;

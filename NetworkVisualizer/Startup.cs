@@ -41,6 +41,7 @@ namespace NetworkVisualizer
 
             services.AddHostedService<PruneDatabaseService>();
             services.AddHostedService<UpdateGraphsService>();
+            services.AddHostedService<DataGenerationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
