@@ -12,7 +12,7 @@
       // Callback that creates and populates a chart
       function drawChart() {
           var jsonData = $.ajax({
-            url: "/Caches/GetLatestMainGraph",
+            url: "/Caches/GetLatestGraph/1",
             dataType: "json",
             async: false
           }).responseText;
@@ -23,7 +23,10 @@
               colors: ['#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af'],
               isStacked: true,
               theme: 'maximized',
-              vAxis: { minValue: 0 },
+              vAxis: {
+                  gridlines: { color: '#F8F8F8' },
+                  minValue: 0
+              },
               height: 550
           };
 

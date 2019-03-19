@@ -77,13 +77,16 @@ namespace NetworkVisualizer.Services
             }
             dt.AddColumn(new Column(ColumnType.Number, "other sites", "other sites"));
 
-            // Create datapoints for every hour
-            for (int t = 1; t < 25; t++)
+            // Create datapoints for every hour, starting with 23 hours ago up to now
+            for (int t = 1; t <= 24; t++)
             {
                 Row r = dt.NewRow();
-                DateTime targetDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t).Subtract(TimeSpan.FromHours(7));
-                List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
 
+                // Lol I know but it works so just leave it alone ;-;
+                DateTime targetDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t).Subtract(TimeSpan.FromHours(7));
+
+                // Add rows, each with top search result numbers
+                List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
                 r.AddCell(new Cell($"{targetDate.Hour}:00"));
                 foreach (int s in domainSearches)
                 {
@@ -105,6 +108,8 @@ namespace NetworkVisualizer.Services
             using (var scope = _scopeFactory.CreateScope())
             {
                 var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
+
+                // Add the number of searches for each domain to list
                 foreach (string domain in domains)
                 {
                     int numberSearched = (from packet in _context.Packet
@@ -115,6 +120,7 @@ namespace NetworkVisualizer.Services
                     searches.Add(numberSearched);
                 }
 
+                // Add number of non-top domain searches to list
                 int otherSearched = (from packet in _context.Packet
                                      where !domains.Contains(packet.DestinationHostname)
                                      && packet.DateTime.Hour == date.Hour

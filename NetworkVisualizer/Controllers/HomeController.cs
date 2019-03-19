@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NetworkVisualizer.Models;
-using Google.DataTable.Net.Wrapper;
 using System;
 using Newtonsoft.Json;
 
@@ -37,7 +34,7 @@ namespace NetworkVisualizer.Controllers
             List<Tuple<string, string, string>> packets = 
                 JsonConvert.DeserializeObject<List<Tuple<string, string, string>>>(json);
 
-            // Convert to packet, add to DB
+            // Convert to Packet, add to DB
             foreach (Tuple<string, string, string> packet in packets)
             {
                 Packet newPacket = new Packet

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NetworkVisualizer.Models;
 
@@ -12,7 +9,6 @@ namespace NetworkVisualizer.Controllers
     public class CachesController : Controller
     {
         private readonly NetworkVisualizerContext _context;
-
         public CachesController(NetworkVisualizerContext context)
         {
             _context = context;
@@ -26,12 +22,19 @@ namespace NetworkVisualizer.Controllers
             return false;
         }
 
-        public string GetLatestMainGraph()
+        public string GetLatestGraph(int? id)
         {
-            return (from cache in _context.Cache
-                   where cache.Key == "Graph1"
-                   orderby cache.ExpireTime descending
-                   select cache).FirstOrDefault().Value;
+            if (id == null)
+                return "";
+
+            Cache graphCache = (from cache in _context.Cache
+                               where cache.Key == $"Graph{id}"
+                               orderby cache.ExpireTime descending
+                               select cache).FirstOrDefault();
+            if (graphCache == null)
+                return "";
+
+            return graphCache.Value;
         }
 
         // GET: Caches
@@ -50,12 +53,13 @@ namespace NetworkVisualizer.Controllers
         }
 
         // POST: Caches/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ExpireTime,Key,Value")] Cache cache)
         {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(cache);

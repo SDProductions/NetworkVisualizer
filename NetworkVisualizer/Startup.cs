@@ -62,6 +62,7 @@ namespace NetworkVisualizer
 
             app.UseMvc(routes =>
             {
+                // Routes for Home
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
@@ -74,6 +75,7 @@ namespace NetworkVisualizer
                     "terms",
                     new { controller = "Home", action = "Terms", id = "" });
 
+                // Routes for Admin
                 routes.MapRoute(
                     "admin",
                     "admin",
@@ -91,6 +93,7 @@ namespace NetworkVisualizer
                     "users",
                     new { controller = "Admin", action = "UserList", id = "" });
 
+                // Routes for Cache
                 routes.MapRoute(
                     "cache",
                     "cache",
