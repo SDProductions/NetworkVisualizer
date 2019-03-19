@@ -59,6 +59,24 @@ namespace NetworkVisualizer.Controllers
             return View();
         }
 
+        // GET: Config
+        public IActionResult Config()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View();
+        }
+
+        // GET: Audit
+        public IActionResult Audit()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View();
+        }
+
         // GET: PacketList
         public async Task<IActionResult> PacketList()
         {
