@@ -4,9 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Admininistrator Control Panel</h2>
+<h2 class="text-center">Admininistrator Control Panel</h2>
 
 <br />
-<p><a href="~/Packets">Packet List</a></p>
-<p><a href="~/Users">User List</a></p>
-<p><a href="~/Cache">Cache List</a></p>
+<div class="control-panel">
+    <a href="~/packets"><img class="row adminButton" src="~/images/packets.png" /></a>
+    <a href="~/users"><img class="row adminButton" src="~/images/users.png" /></a>
+    <a href="~/cache"><img class="row adminButton" src="~/images/cache.png" /></a>
+</div>

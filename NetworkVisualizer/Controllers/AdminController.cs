@@ -160,7 +160,7 @@ namespace NetworkVisualizer.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return Redirect("~/userlist");
+                return Redirect("~/users");
             }
             return View(user);
         }
@@ -193,7 +193,7 @@ namespace NetworkVisualizer.Controllers
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
-            return Redirect("~/userlist");
+            return Redirect("~/users");
         }
 
         // GET: UserEdit
@@ -236,7 +236,7 @@ namespace NetworkVisualizer.Controllers
                     else
                         throw;
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect("~/users");
             }
             return View(user);
         }

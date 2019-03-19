@@ -22,6 +22,19 @@
     margin-bottom: 15px;
 }
 
+.control-panel {
+    display: block;
+    width: 650px;
+    margin: auto;
+    margin-top: 10vh;
+}
+
+.adminButton {
+    height: 200px;
+    width: 200px;
+    margin: 5px;
+}
+
 #chart-div {
     width: 100%;
 }
@@ -66,6 +79,15 @@ footer p {
     }
     .login {
         width: 100%;
+    }
+    .control-panel {
+        width: 160px;
+        margin: auto;
+    }
+    .adminButton {
+        height: 150px;
+        width: 150px;
+        margin: 5px;
     }
     footer p {
         font-size: 15px;
