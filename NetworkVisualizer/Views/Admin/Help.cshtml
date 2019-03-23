@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Help";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Help</h2>
+
+<br />
+<h3>Config</h3>
+<p>Config shows current site settings, which can be altered according to their descriptions. This can affect site functionality.</p>
+
+<br />
+<h3>Packets</h3>
+<p>The packets page shows a list of every single packet in the database. You can manually delete or create packets.</p>
+
+<br />
+<h3>Audit</h3>
+<p>The audit log shows every action that has been performed regarding site settings and the database.</p>
+
+<br />
+<h3>Users</h3>
+<p>The users page contains data about individual user accounts and allows you to edit, view, create, and delete them.</p>
+<p>Please note that if all user accounts are deleted for whatever reason and the last person logged in gets signed out, you must access the SQL database manually and add a user to login.</p>
+
+<br />
+<h3>Cache</h3>
+<p>Cache can contain a variety of data but is primarily used to store JSON values of tables for the graphs shown on the front page. Whenever a user loads the front page, a single database call is made to Cache, shortening load times and improving site performance.</p>
+<p>In the event that you want to manually upload a graph, revert to a previous graph, or edit other cache values, you can do so through this page. Since the JSON format used by the main graphs is difficult to understand, we do not recommend touching this if you don't know what you are doing.</p>

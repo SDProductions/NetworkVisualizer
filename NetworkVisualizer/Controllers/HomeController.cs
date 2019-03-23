@@ -24,11 +24,11 @@ namespace NetworkVisualizer.Controllers
 
         // POST Index: Add list of packets to DB
         [HttpPost]
-        public string Index(string json)
+        public string Index(string password, string json)
         {
             // Check password and reject if mismatch
-            /*if (password != Config.config.HttpPostPassword)
-                return "Mismatched password.";*/
+            if (password != Config.config.HttpPostPassword)
+                return "Mismatched password.";
 
             // Get list of pseudopacket-objects from json
             List<Tuple<string, string, string>> packets = 

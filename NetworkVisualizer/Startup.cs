@@ -85,22 +85,27 @@ namespace NetworkVisualizer
                     "login",
                     "login",
                     new { controller = "Admin", action = "Login", id = "" });
+                // Admin control panel options
                 routes.MapRoute(
                     "config",
                     "config",
                     new { controller = "Admin", action = "Config", id = "" });
                 routes.MapRoute(
-                    "audit",
-                    "audit",
-                    new { controller = "Admin", action = "Audit", id = "" });
-                routes.MapRoute(
                     "packets",
                     "packets",
                     new { controller = "Admin", action = "PacketList", id = "" });
                 routes.MapRoute(
+                    "audit",
+                    "audit",
+                    new { controller = "Admin", action = "Audit", id = "" });
+                routes.MapRoute(
                     "users",
                     "users",
                     new { controller = "Admin", action = "UserList", id = "" });
+                routes.MapRoute(
+                    "help",
+                    "help",
+                    new { controller = "Admin", action = "Help", id = "" });
 
                 // Routes for Cache
                 routes.MapRoute(

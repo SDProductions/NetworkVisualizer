@@ -77,6 +77,15 @@ namespace NetworkVisualizer.Controllers
             return View();
         }
 
+        // GET: Help
+        public IActionResult Help()
+        {
+            if (!LoggedIn())
+                return Redirect("~/login");
+
+            return View();
+        }
+
         // GET: PacketList
         public async Task<IActionResult> PacketList()
         {
