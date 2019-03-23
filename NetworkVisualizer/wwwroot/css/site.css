@@ -58,14 +58,14 @@ a {
 
 footer {
     background-color: #eeeeee;
-    height: 70px;
+    height: 55px;
     width: 100%;
     padding-top: 10px;
     position: fixed;
     bottom: 0;
 }
 footer p {
-    padding-top: 10px;
+    padding-top: 3px;
 }
 
 /* Hide/rearrange for smaller screens */
