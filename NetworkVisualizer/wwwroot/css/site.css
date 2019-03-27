@@ -89,6 +89,9 @@ footer p {
     #banner {
         width: 360px;
     }
+    #loadingimg {
+        width: 100px;
+    }
     .contentBlock {
         margin: 20px 40px;
         margin-top: 0;
