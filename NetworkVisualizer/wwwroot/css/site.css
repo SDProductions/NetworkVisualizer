@@ -10,6 +10,22 @@
     margin-top: 1vh;
 }
 
+#loading {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#loadingimg {
+    display: block;
+    width: 300px;
+    margin: auto;
+    margin-top: 35vh;
+}
+
 .contentBlock {
     margin: 20px 100px;
     margin-top: 0;

@@ -5,35 +5,42 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
 
-      // Callback that creates and populates a chart
-      function drawChart() {
-          var jsonData = $.ajax({
+    // Callback that creates and populates a chart
+    function drawChart() {
+        var jsonData = $.ajax({
             url: "/Caches/GetLatestGraph/1",
             dataType: "json",
             async: false
-          }).responseText;
-          var data = new google.visualization.DataTable(jsonData);
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
 
-          var options = {
-              fontName: "Trebuchet MS",
-              colors: ['#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af'],
-              isStacked: true,
-              theme: 'maximized',
-              vAxis: {
-                  gridlines: { color: '#F8F8F8' },
-                  minValue: 0
-              },
-              height: 550
-          };
+        var options = {
+            fontName: "Trebuchet MS",
+            colors: ['#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af'],
+            isStacked: true,
+            theme: 'maximized',
+            vAxis: {
+                gridlines: { color: '#F8F8F8' },
+                minValue: 0
+            },
+            height: 550
+        };
 
-          var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-          chart.draw(data, options);
-      }
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+        // Remove the loading icon
+        $("#loading").remove();
+    }
 </script>
 
 <h2 class="text-center">Domain Visits over Past 24 Hours</h2>
 <div id="chart_div"></div>
+
+<div id="loading">
+    <img id="loadingimg" src="~/images/Loading.gif" />
+</div>
