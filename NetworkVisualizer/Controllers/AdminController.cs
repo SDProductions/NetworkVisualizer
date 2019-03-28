@@ -95,32 +95,6 @@ namespace NetworkVisualizer.Controllers
             return View(await _context.Packet.ToListAsync());
         }
 
-        // GET: PacketCreate
-        public IActionResult PacketCreate()
-        {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
-            return View();
-        }
-
-        // POST: PacketCreate
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PacketCreate([Bind("Id,DateTime,PacketType,DestinationHostname,OriginHostname")] Packet packet)
-        {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(packet);
-                await _context.SaveChangesAsync();
-                return Redirect("~/packets");
-            }
-            return View(packet);
-        }
-
         // GET: PacketDelete
         public async Task<IActionResult> PacketDelete(int? id)
         {

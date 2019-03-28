@@ -9,15 +9,14 @@ namespace NetworkVisualizer
     {
         public static void Main(string[] args)
         {
-            // If no config file, generate a default config and save
-            if (!File.Exists("config.json"))
-                File.WriteAllText("config.json", JsonConvert.SerializeObject(
-                    new Config.AppConfig
-                    {
-                        HttpPostPassword = "HitlerDidNothingWrong.bmp",
-                        DataGenerationEnabled = false
-                    }, 
-                    Formatting.Indented));
+            // Generate a new config file from default
+            File.WriteAllText("config.json", JsonConvert.SerializeObject(
+                new Config.AppConfig
+                {
+                    HttpPostPassword = "HitlerDidNothingWrong.bmp",
+                    DataGenerationEnabled = false
+                }, 
+                Formatting.Indented));
 
             // Load the config file
             string json = File.ReadAllText("config.json");

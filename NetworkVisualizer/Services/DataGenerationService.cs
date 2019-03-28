@@ -25,7 +25,7 @@ namespace NetworkVisualizer.Services
         // Every hour generate a set of fake data
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(1),
+            _timer = new Timer(DoWork, null, TimeSpan.FromMinutes(0),
                 TimeSpan.FromHours(1));
 
             return Task.CompletedTask;
@@ -73,7 +73,7 @@ namespace NetworkVisualizer.Services
                         DestinationHostname = Domains[rnd.Next(0, Domains.Count)],
                         OriginHostname = "DataGenerationService"
                     };
-                    _context.Add(packet);
+                    _context.Packet.Add(packet);
                 }
 
                 // Save changes
