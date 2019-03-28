@@ -34,7 +34,9 @@
         chart.draw(data, options);
 
         // Remove the loading icon
-        $("#loading").animate({ opacity: 0 }, 1000);
+        $("#loading").animate({ opacity: 0 }, 1000).promise().done(function () {
+            $("#loading").remove();
+        });
     }
 </script>
 
