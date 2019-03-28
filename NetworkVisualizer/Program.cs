@@ -14,7 +14,7 @@ namespace NetworkVisualizer
                 new Config.AppConfig
                 {
                     HttpPostPassword = "HitlerDidNothingWrong.bmp",
-                    DataGenerationEnabled = false
+                    DataGenerationEnabled = true
                 }, 
                 Formatting.Indented));
 
