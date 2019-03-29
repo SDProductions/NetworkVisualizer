@@ -3,7 +3,7 @@ NetworkVisualizer is a project co-developed by SDProductions and Aidan Smith. Th
 
 The premises of operation is simple, a device which has two network interfaces, one set to monitoring mode, is deployed and connected to the target network. This device runs the [packet sniffer](https://github.com/AllDoge/Network-Analyzer-Backend) and sends the data via HttpPOST to this website. The data gets added to the database, and it gets displayed on the front page graphs. If you would like more information on how we plan to use the data, you can visit our [about](https://networkvisualizer.azurewebsites.net/About) and [terms of service](https://networkvisualizer.azurewebsites.net/Terms) pages.
 
-It is important a few key features are missing right now, and that we don't recommend taking this site and running it for yourself just yet. Graph caching is missing, which means the database will get nuked with calls every time a user wants to load the front page. We are currently working on implementing this. There is also a lack of an administrative panel, which requires any moderators to go through interacting with the SQL database directly, or manually use our site which is tedious right now.
+It is important a few key features are missing right now, and that we don't recommend taking this site and running it for yourself just yet. A fluid and complete administrator panel is being implemented currently, but is no where near done and as such knowledge of the app structure is required to modify app behaviour. Code is still unoptimized and messy, although optimizations are being worked on. A full, complete user experience is also definitely not complete, although being worked on. The site is functional, but not pretty. Smaller details like more graphs are also not present at this stage.
 
 # Forking and cloning this repo
 
@@ -11,7 +11,7 @@ When forking or cloning this repo, ensure you have performed the following steps
 1) Run Update-Database in the NuGet Package Manager Console - since your machine likely does not have the SQL database already there
 2) In the User database table, create a new user account and password like root and root.
 3) Take a look at connection strings and passwords found in the config files, and decide if you need to change them
-3A) We highly recommend you change passwords as having it remain the default could subject yourself to unwanted posts (rare, but maybe)
+4) We highly recommend you change passwords as having it remain the default could subject yourself to unwanted posts (rare, but maybe)
 
 # Deploying this to production
 
