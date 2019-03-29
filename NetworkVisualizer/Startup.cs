@@ -93,7 +93,7 @@ namespace NetworkVisualizer
                 routes.MapRoute(
                     "packets",
                     "packets",
-                    new { controller = "Admin", action = "PacketList", id = "" });
+                    new { controller = "Admin", action = "Packets", id = "" });
                 routes.MapRoute(
                     "audit",
                     "audit",
@@ -101,7 +101,7 @@ namespace NetworkVisualizer
                 routes.MapRoute(
                     "users",
                     "users",
-                    new { controller = "Admin", action = "UserList", id = "" });
+                    new { controller = "Admin", action = "Users", id = "" });
                 routes.MapRoute(
                     "help",
                     "help",

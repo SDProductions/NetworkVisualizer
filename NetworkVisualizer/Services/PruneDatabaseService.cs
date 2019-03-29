@@ -44,10 +44,10 @@ namespace NetworkVisualizer
 
                 // Get packets older than 24 hours and expired caches
                 List<Packet> oldPackets = (from packet in _context.Packet
-                                           where DateTime.Now.Subtract(packet.DateTime) >= TimeSpan.FromHours(24)
+                                           where DateTime.UtcNow.Subtract(packet.DateTime) >= TimeSpan.FromHours(24)
                                            select packet).ToList();
                 List<Cache> oldCache = (from cache in _context.Cache
-                                        where DateTime.Now > cache.ExpireTime
+                                        where DateTime.UtcNow > cache.ExpireTime
                                         select cache).ToList();
 
                 // Remove these and save changes

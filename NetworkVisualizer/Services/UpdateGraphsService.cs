@@ -44,7 +44,7 @@ namespace NetworkVisualizer.Services
                 // Add generated graphs for each graph
                 _context.Cache.Add(new Cache
                 {
-                    ExpireTime = DateTime.Now.AddDays(1),
+                    ExpireTime = DateTime.UtcNow.AddDays(1),
                     Key = "Graph1",
                     Value = GenerateDatatableJson()
                 });
@@ -81,13 +81,12 @@ namespace NetworkVisualizer.Services
             for (int t = 1; t <= 24; t++)
             {
                 Row r = dt.NewRow();
+                
+                DateTime targetDateTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t);
 
-                // Lol I know but it works so just leave it alone ;-;
-                DateTime targetDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t).Subtract(TimeSpan.FromHours(7));
-
-                // Add rows, each with top search result numbers
-                List<int> domainSearches = TopDomainSearches(topDomains, targetDate);
-                r.AddCell(new Cell($"{targetDate.Hour}:00"));
+                // Add rows, each with top search result numbers & a time with offset applied
+                List<int> domainSearches = TopDomainSearches(topDomains, targetDateTime);
+                r.AddCell(new Cell($"{targetDateTime.AddHours(Config.config.UTCHoursOffset).Hour}:00"));
                 foreach (int s in domainSearches)
                 {
                     r.AddCell(new Cell(s));
@@ -115,6 +114,7 @@ namespace NetworkVisualizer.Services
                     int numberSearched = (from packet in _context.Packet
                                           where packet.DestinationHostname == domain
                                           && packet.DateTime.Hour == date.Hour
+                                          && packet.DateTime.Day == date.Day
                                           select packet).Count();
                     total += numberSearched;
                     searches.Add(numberSearched);

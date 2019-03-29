@@ -9,6 +9,8 @@
             public string HttpPostPassword { get; set; }
 
             public bool DataGenerationEnabled { get; set; }
+
+            public int UTCHoursOffset { get; set; }
         }
     }
 }

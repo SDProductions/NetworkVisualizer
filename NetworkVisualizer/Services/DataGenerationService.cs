@@ -68,7 +68,7 @@ namespace NetworkVisualizer.Services
                 {
                     Packet packet = new Packet
                     {
-                        DateTime = DateTime.UtcNow.Subtract(TimeSpan.FromHours(7)),
+                        DateTime = DateTime.UtcNow,
                         PacketType = Types[rnd.Next(0, Types.Count)],
                         DestinationHostname = Domains[rnd.Next(0, Domains.Count)],
                         OriginHostname = "DataGenerationService"

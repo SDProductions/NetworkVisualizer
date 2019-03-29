@@ -10,17 +10,13 @@ namespace NetworkVisualizer
         public static void Main(string[] args)
         {
             // Generate a new config file from default
-            File.WriteAllText("config.json", JsonConvert.SerializeObject(
+            Config.config =
                 new Config.AppConfig
                 {
                     HttpPostPassword = "HitlerDidNothingWrong.bmp",
-                    DataGenerationEnabled = true
-                }, 
-                Formatting.Indented));
-
-            // Load the config file
-            string json = File.ReadAllText("config.json");
-            Config.config = JsonConvert.DeserializeObject<Config.AppConfig>(json);
+                    DataGenerationEnabled = true,
+                    UTCHoursOffset = -7
+                };
 
             CreateWebHostBuilder(args).Build().Run();
         }

@@ -87,7 +87,7 @@ namespace NetworkVisualizer.Controllers
         }
 
         // GET: PacketList
-        public async Task<IActionResult> PacketList()
+        public async Task<IActionResult> Packets()
         {
             if (!LoggedIn())
                 return Redirect("~/login");
@@ -104,35 +104,14 @@ namespace NetworkVisualizer.Controllers
             if (id == null)
                 return NotFound();
 
-            var packet = await _context.Packet
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (packet == null)
-                return NotFound();
-
-            return View(packet);
-        }
-
-        // POST: PacketDelete
-        [HttpPost, ActionName("PacketDelete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PacketDeleteConfirmed(int id)
-        {
-            if (!LoggedIn())
-                Redirect("~/login");
-
             var packet = await _context.Packet.FindAsync(id);
             _context.Packet.Remove(packet);
             await _context.SaveChangesAsync();
             return Redirect("~/packets");
         }
 
-        private bool PacketExists(int id)
-        {
-            return _context.Packet.Any(e => e.Id == id);
-        }
-
         // GET: UserList
-        public async Task<IActionResult> UserList()
+        public async Task<IActionResult> Users()
         {
             if (!LoggedIn())
                 return Redirect("~/login");
@@ -174,22 +153,6 @@ namespace NetworkVisualizer.Controllers
 
             if (id == null)
                 return NotFound();
-
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
-                return NotFound();
-
-            return View(user);
-        }
-
-        // POST: UserDelete
-        [HttpPost, ActionName("UserDelete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UserDeleteConfirmed(int id)
-        {
-            if (!LoggedIn())
-                return Redirect("~/login");
 
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);

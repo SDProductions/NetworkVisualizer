@@ -39,7 +39,7 @@ namespace NetworkVisualizer.Controllers
             {
                 Packet newPacket = new Packet
                 {
-                    DateTime = DateTime.UtcNow.Subtract(TimeSpan.FromHours(7)),
+                    DateTime = DateTime.UtcNow,
                     PacketType = packet.Item1,
                     DestinationHostname = packet.Item2,
                     OriginHostname = packet.Item3
