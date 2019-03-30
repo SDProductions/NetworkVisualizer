@@ -96,6 +96,9 @@ footer p {
         margin: 20px 40px;
         margin-top: 0;
     }
+    h2 {
+        font-size: 16px;
+    }
     .login {
         width: 100%;
     }

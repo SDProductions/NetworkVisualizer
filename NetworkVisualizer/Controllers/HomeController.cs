@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetworkVisualizer.Models;
 using System;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace NetworkVisualizer.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         // Gets context so DB is accessible within this file

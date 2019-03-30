@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NetworkVisualizer.Models;
 
 namespace NetworkVisualizer.Controllers
 {
+    [Authorize]
     public class CachesController : Controller
     {
         private readonly NetworkVisualizerContext _context;
@@ -14,14 +16,7 @@ namespace NetworkVisualizer.Controllers
             _context = context;
         }
 
-        private bool LoggedIn()
-        {
-            if (Request.Cookies["isLoggedIn"] == "true")
-                return true;
-
-            return false;
-        }
-
+        [AllowAnonymous]
         public string GetLatestGraph(int? id)
         {
             if (id == null)
@@ -46,9 +41,6 @@ namespace NetworkVisualizer.Controllers
         // GET: Caches/Create
         public IActionResult Create()
         {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
             return View();
         }
 
@@ -57,9 +49,6 @@ namespace NetworkVisualizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ExpireTime,Key,Value")] Cache cache)
         {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
             if (ModelState.IsValid)
             {
                 _context.Add(cache);
@@ -72,9 +61,6 @@ namespace NetworkVisualizer.Controllers
         // GET: Caches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
             if (id == null)
                 return NotFound();
 
@@ -91,9 +77,6 @@ namespace NetworkVisualizer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!LoggedIn())
-                return Redirect("~/login");
-
             var cache = await _context.Cache.FindAsync(id);
             _context.Cache.Remove(cache);
             await _context.SaveChangesAsync();

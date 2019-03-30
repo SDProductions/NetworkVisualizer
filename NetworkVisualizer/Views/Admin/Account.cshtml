@@ -1,0 +1,17 @@
+﻿@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific
+    string preferred_username = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
+}
+
+<h2 class="text-center">Account</h2>
+
+<br />
+<h3>Username:</h3>
+<p>@preferred_username</p>
+
+<p><a asp-area="AzureAD" asp-controller="Account" asp-action="SignOut">Sign out</a></p>
