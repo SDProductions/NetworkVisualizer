@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Help";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Help</h2>
@@ -12,16 +12,15 @@
 
 <br />
 <h3>Packets</h3>
-<p>The packets page shows a list of every single packet in the database. You can manually delete or create packets.</p>
+<p>The packets page shows a list of every single packet in the database. You can manually delete packets.</p>
 
 <br />
 <h3>Audit</h3>
 <p>The audit log shows every action that has been performed regarding site settings and the database.</p>
 
 <br />
-<h3>Users</h3>
-<p>The users page contains data about individual user accounts and allows you to edit, view, create, and delete them.</p>
-<p>Please note that if all user accounts are deleted for whatever reason and the last person logged in gets signed out, you must access the SQL database manually and add a user to login.</p>
+<h3>Account</h3>
+<p>The account page shows the current signed in user. You can sign out of the account here. Accounts are according to the user signed in with their Azure Active Directory linked Microsoft account.</p>
 
 <br />
 <h3>Cache</h3>

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
     var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific
     string preferred_username = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
