@@ -8,16 +8,16 @@ It is important a few key features are missing right now, and that we don't reco
 # Forking and cloning this repo
 
 When forking or cloning this repo, ensure you have performed the following steps or the site may not function correctly.
-1) Run Update-Database in the NuGet Package Manager Console - since your machine likely does not have the SQL database already there
-2) In the User database table, create a new user account and password like root and root.
-3) Take a look at connection strings and passwords found in the config files, and decide if you need to change them
+1) Run Update-Database in the NuGet Package Manager Console - or, set up a database and change the SQL connection string
+2) In Program.cs, change the default config file that gets generated to your needs
+3) Change the appsettings.json file to contain your Azure Active Directory subscription info
 4) We highly recommend you change passwords as having it remain the default could subject yourself to unwanted posts (rare, but maybe)
 
 # Deploying this to production
 
-A few files required for deploying to production have been omitted from this repo for reasons of not leaking my passwords. You need the following to deploy this site for your own use in production:
-1) appsettings.production.json - this file needs the SqlConnection string for your database that you are using
-2) Steps 2 and 3 from forking and cloning this repo
+A few files required for deploying to production have been omitted from this repo for reasons of not leaking my passwords. Yes, I am aware of things like Azure Key Vaults and the Visual Studio secrets manager and I will look into those later. For now, you need the following to deploy this site for your own use in production:
+1) appsettings.production.json - this file needs the SqlConnection string for your database that you are using as well as the Azure AD information found in the development version of this file
+2) Steps 2 and 4 from "Forking and cloning this repo"
 
 # Other notes
 
