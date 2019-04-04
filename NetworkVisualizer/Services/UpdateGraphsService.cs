@@ -46,14 +46,14 @@ namespace NetworkVisualizer.Services
                 {
                     ExpireTime = DateTime.UtcNow.AddDays(1),
                     Key = "Graph1",
-                    Value = GenerateDatatableJson()
+                    Value = GenerateMainDatatableJson()
                 });
 
                 _context.SaveChanges();
             }
         }
 
-        public string GenerateDatatableJson()
+        public string GenerateMainDatatableJson()
         {
             DataTable dt = new DataTable();
 
@@ -61,6 +61,7 @@ namespace NetworkVisualizer.Services
             List<string> topDomains = new List<string>();
             using (var scope = _scopeFactory.CreateScope())
             {
+                // Get context (database)
                 var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
                 topDomains = _context.Packet
                              .GroupBy(q => q.DestinationHostname)
