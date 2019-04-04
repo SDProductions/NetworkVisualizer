@@ -51,6 +51,11 @@
     margin: 5px;
 }
 
+.nospace {
+    margin: 0;
+    padding: 0;
+}
+
 #chart-div {
     width: 100%;
 }
@@ -98,6 +103,12 @@ footer p {
     }
     h2 {
         font-size: 16px;
+    }
+    h3 {
+        font-size: 16px;
+    }
+    p {
+        font-size: 12px;
     }
     .login {
         width: 100%;

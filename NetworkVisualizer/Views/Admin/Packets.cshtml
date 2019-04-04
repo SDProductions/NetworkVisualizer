@@ -7,43 +7,20 @@
 
 <h2>Packets</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PacketType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DestinationHostname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OriginHostname)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PacketType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DestinationHostname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OriginHostname)
-            </td>
-            <td>
-                <a asp-action="PacketDelete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<br />
+@{
+    DateTime lastTime = DateTime.Now.Subtract(TimeSpan.FromDays(2));
+    foreach (var item in Model)
+    {
+        if (item.DateTime.Minute != lastTime.Minute)
+        {
+            <h3>@item.DateTime</h3>
+            <hr />
+            lastTime = item.DateTime;
+        }
+
+        <p class="nospace">@item.Id - @item.PacketType - <a asp-action="PacketDelete" asp-route-id="@item.Id">Delete</a></p>
+        <p class="nospace">@item.DestinationHostname - @item.OriginHostname</p>
+        <br />
+    }
 }
-    </tbody>
-</table>

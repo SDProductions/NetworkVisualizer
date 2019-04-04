@@ -7,6 +7,7 @@
 
 <h2>Audit</h2>
 
+<br />
 @{
     DateTime lastTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(2));
     foreach (var item in Model)
@@ -17,6 +18,8 @@
             <hr />
             lastTime = item.DateTime;
         }
-        <p>@item.Username - @item.Action</p>
+        <p class="nospace">@item.Username:</p>
+        <p class="nospace">@item.Action</p>
+        <br />
     }
 }
