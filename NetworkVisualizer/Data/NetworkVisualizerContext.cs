@@ -17,5 +17,7 @@ namespace NetworkVisualizer.Models
         public DbSet<NetworkVisualizer.Models.Packet> Packet { get; set; }
 
         public DbSet<NetworkVisualizer.Models.Cache> Cache { get; set; }
+
+        public DbSet<NetworkVisualizer.Models.Audit> Audit { get; set; }
     }
 }

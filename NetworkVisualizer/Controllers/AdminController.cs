@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +27,14 @@ namespace NetworkVisualizer.Controllers
         // GET: Config
         public IActionResult Config()
         {
+            AddAudit("Access - Config");
             return View();
         }
 
         // GET: Audit
         public IActionResult Audit()
         {
-            return View();
+            return View(_context.Audit.ToList());
         }
 
         // GET: Account
@@ -45,9 +49,10 @@ namespace NetworkVisualizer.Controllers
             return View();
         }
 
-        // GET: PacketList
+        // GET: Packets
         public async Task<IActionResult> Packets()
         {
+            AddAudit("Access - Packet");
             return View(await _context.Packet.ToListAsync());
         }
 
@@ -60,7 +65,23 @@ namespace NetworkVisualizer.Controllers
             var packet = await _context.Packet.FindAsync(id);
             _context.Packet.Remove(packet);
             await _context.SaveChangesAsync();
+
+            AddAudit("Delete - Packet");
             return Redirect("~/packets");
+        }
+
+        private void AddAudit(string Action)
+        {
+            var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific
+
+            _context.Audit.Add(new Audit
+            {
+                DateTime = DateTime.UtcNow,
+                Username = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value,
+                Action = Action
+            });
+
+            _context.SaveChanges();
         }
     }
 }

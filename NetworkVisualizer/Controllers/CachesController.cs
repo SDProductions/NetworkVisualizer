@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,7 @@ namespace NetworkVisualizer.Controllers
         // GET: Caches
         public async Task<IActionResult> Index()
         {
+            AddAudit("Access - Caches");
             return View(await _context.Cache.ToListAsync());
         }
 
@@ -55,6 +58,8 @@ namespace NetworkVisualizer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            AddAudit("Create - Cache");
             return View(cache);
         }
 
@@ -80,12 +85,28 @@ namespace NetworkVisualizer.Controllers
             var cache = await _context.Cache.FindAsync(id);
             _context.Cache.Remove(cache);
             await _context.SaveChangesAsync();
+
+            AddAudit("Delete - Cache");
             return RedirectToAction(nameof(Index));
         }
 
         private bool CacheExists(int id)
         {
             return _context.Cache.Any(e => e.Id == id);
+        }
+
+        private void AddAudit(string Action)
+        {
+            var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific
+
+            _context.Audit.Add(new Audit
+            {
+                DateTime = DateTime.UtcNow,
+                Username = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value,
+                Action = Action
+            });
+
+            _context.SaveChanges();
         }
     }
 }

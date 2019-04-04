@@ -50,7 +50,14 @@ namespace NetworkVisualizer.Controllers
                 if (ModelState.IsValid)
                     _context.Packet.Add(newPacket);
             }
-            
+
+            // Add an audit
+            _context.Audit.Add(new Audit
+            {
+                DateTime = DateTime.UtcNow,
+                Username = "POST",
+                Action = "Recieved packets"
+            });
             _context.SaveChanges();
             return "Operation successful.";
         }

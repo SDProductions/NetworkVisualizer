@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<NetworkVisualizer.Models.Audit>
+
 @{
     ViewData["Title"] = "Audit";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -6,4 +7,16 @@
 
 <h2>Audit</h2>
 
-<p>There will be stuff here soon:tm:</p>
+@{
+    DateTime lastTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(2));
+    foreach (var item in Model)
+    {
+        if (item.DateTime.Minute != lastTime.Minute)
+        {
+            <h3>@item.DateTime</h3>
+            <hr />
+            lastTime = item.DateTime;
+        }
+        <p>@item.Username - @item.Action</p>
+    }
+}
