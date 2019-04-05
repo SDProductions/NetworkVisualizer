@@ -48,6 +48,18 @@ namespace NetworkVisualizer.Services
                     Key = "Graph1",
                     Value = GenerateMainDatatableJson()
                 });
+                _context.Cache.Add(new Cache
+                {
+                    ExpireTime = DateTime.UtcNow.AddDays(1),
+                    Key = "Graph2",
+                    Value = GenerateDomainDatatableJson("google", true)
+                });
+                _context.Cache.Add(new Cache
+                {
+                    ExpireTime = DateTime.UtcNow.AddDays(1),
+                    Key = "Graph3",
+                    Value = GenerateDomainDatatableJson("google", false)
+                });
 
                 _context.SaveChanges();
             }
@@ -57,8 +69,8 @@ namespace NetworkVisualizer.Services
         {
             DataTable dt = new DataTable();
 
-            // Get most searched domains in database
-            List<string> topDomains = new List<string>();
+            // Get most searched domains in database, add non-top for graph
+            List<string> topDomains;
             using (var scope = _scopeFactory.CreateScope())
             {
                 // Get context (database)
@@ -68,6 +80,7 @@ namespace NetworkVisualizer.Services
                              .OrderByDescending(gp => gp.Count())
                              .Take(4)
                              .Select(g => g.Key).ToList();
+                topDomains.Add("other sites");
             }
 
             // Add most searched domains as columns in datatable, with Time and Other category
@@ -76,7 +89,6 @@ namespace NetworkVisualizer.Services
             {
                 dt.AddColumn(new Column(ColumnType.Number, domain, domain));
             }
-            dt.AddColumn(new Column(ColumnType.Number, "other sites", "other sites"));
 
             // Create datapoints for every hour, starting with 23 hours ago up to now
             for (int t = 1; t <= 24; t++)
@@ -86,7 +98,7 @@ namespace NetworkVisualizer.Services
                 DateTime targetDateTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(t);
 
                 // Add rows, each with top search result numbers & a time with offset applied
-                List<int> domainSearches = TopDomainSearches(topDomains, targetDateTime);
+                List<int> domainSearches = DomainSearches(topDomains, targetDateTime);
                 r.AddCell(new Cell($"{targetDateTime.AddHours(Config.config.UTCHoursOffset).Hour}:00"));
                 foreach (int s in domainSearches)
                 {
@@ -100,7 +112,52 @@ namespace NetworkVisualizer.Services
             return dt.GetJson();
         }
 
-        private List<int> TopDomainSearches(List<string> domains, DateTime date)
+        private string GenerateDomainDatatableJson(string provider, bool inclusive)
+        {
+            DataTable dt = new DataTable();
+
+            // Get most searched domains with Google (eg. drive.google.com)
+            List<string> topDomains = new List<string>();
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
+                topDomains = _context.Packet
+                             .Where(p => p.DestinationHostname.Contains(provider) == inclusive)
+                             .GroupBy(q => q.DestinationHostname)
+                             .OrderByDescending(gp => gp.Count())
+                             .Take(4)
+                             .Select(g => g.Key).ToList();
+            }
+
+            // Add most searched domains as columns in datatable with Time
+            dt.AddColumn(new Column(ColumnType.String, "Time", "Time"));
+            foreach (string domain in topDomains)
+            {
+                dt.AddColumn(new Column(ColumnType.Number, domain, domain));
+            }
+
+            // Create datapoints for every hour, starting with 12 hours ago up to now
+            for (int t = 0; t <= 12; t++)
+            {
+                Row r = dt.NewRow();
+
+                DateTime targetDateTime = DateTime.UtcNow.Subtract(TimeSpan.FromHours(12)).AddHours(t);
+
+                // Add rows, each with top search result numbers & a time with offset applied
+                List<int> domainSearches = DomainSearches(topDomains, targetDateTime);
+                r.AddCell(new Cell($"{targetDateTime.AddHours(Config.config.UTCHoursOffset).Hour}:00"));
+                foreach (int s in domainSearches)
+                {
+                    r.AddCell(new Cell(s));
+                }
+
+                dt.AddRow(r);
+            }
+
+            return dt.GetJson();
+        }
+
+        private List<int> DomainSearches(List<string> domains, DateTime date)
         {
             List<int> searches = new List<int>();
             int total = 0;
@@ -110,24 +167,29 @@ namespace NetworkVisualizer.Services
                 var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
 
                 // Add the number of searches for each domain to list
+                int numberSearched;
                 foreach (string domain in domains)
                 {
-                    int numberSearched = (from packet in _context.Packet
-                                          where packet.DestinationHostname == domain
+                    if (domain == "other sites")
+                    {
+                        numberSearched = (from packet in _context.Packet
+                                          where !domains.Contains(packet.DestinationHostname)
                                           && packet.DateTime.Hour == date.Hour
                                           && packet.DateTime.Day == date.Day
                                           select packet).Count();
+                    }
+                    else
+                    {
+                        numberSearched = (from packet in _context.Packet
+                                              where packet.DestinationHostname == domain
+                                              && packet.DateTime.Hour == date.Hour
+                                              && packet.DateTime.Day == date.Day
+                                              select packet).Count();
+                    }
+                    
                     total += numberSearched;
                     searches.Add(numberSearched);
                 }
-
-                // Add number of non-top domain searches to list
-                int otherSearched = (from packet in _context.Packet
-                                     where !domains.Contains(packet.DestinationHostname)
-                                     && packet.DateTime.Hour == date.Hour
-                                     && packet.DateTime.Day == date.Day
-                                     select packet).Count();
-                searches.Add(otherSearched);
             }
 
             return searches;

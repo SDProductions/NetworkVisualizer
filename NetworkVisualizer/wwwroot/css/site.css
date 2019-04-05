@@ -56,13 +56,27 @@
     padding: 0;
 }
 
-#chart-div {
+.chart-div {
     width: 100%;
+}
+
+.half {
+    display: block;
+    width: 40vw;
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.chart {
+    margin-bottom: 100px;
 }
 
 h2 {
     color: #666666;
-    font-size: 24px;
+    font-size: 22px;
 }
 h3 {
     color: #666666;
@@ -109,6 +123,10 @@ footer p {
     }
     p {
         font-size: 12px;
+    }
+    .half {
+        width: 100%;
+        float: none;
     }
     .login {
         width: 100%;

@@ -11,13 +11,6 @@
 
     // Callback that creates and populates a chart
     function drawChart() {
-        var jsonData = $.ajax({
-            url: "/Caches/GetLatestGraph/1",
-            dataType: "json",
-            async: false
-        }).responseText;
-        var data = new google.visualization.DataTable(jsonData);
-
         var options = {
             fontName: "Trebuchet MS",
             colors: ['#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af'],
@@ -27,10 +20,39 @@
                 gridlines: { color: '#F8F8F8' },
                 minValue: 0
             },
-            height: window.innerHeight / 1.6
+            height: screen.height / 1.7
         };
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        var jsonData = $.ajax({
+            url: "/Caches/GetLatestGraph/1",
+            dataType: "json",
+            async: false
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
+        
+        var chart = new google.visualization.AreaChart(document.getElementById('main_chart_div'));
+        chart.draw(data, options);
+
+        options.height = screen.height / 2.4
+
+        jsonData = $.ajax({
+            url: "/Caches/GetLatestGraph/2",
+            dataType: "json",
+            async: false
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
+        
+        chart = new google.visualization.AreaChart(document.getElementById('google_chart_div'));
+        chart.draw(data, options);
+
+        jsonData = $.ajax({
+            url: "/Caches/GetLatestGraph/3",
+            dataType: "json",
+            async: false
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
+
+        chart = new google.visualization.AreaChart(document.getElementById('nongoogle_chart_div'));
         chart.draw(data, options);
 
         // Remove the loading icon
@@ -40,8 +62,22 @@
     }
 </script>
 
-<h2 class="text-center">Domain Visits over Past 24 Hours</h2>
-<div id="chart_div"></div>
+<div>
+    <h2 class="text-center">Domain Visits over Past 24 Hours</h2>
+    <div id="main_chart_div"></div>
+
+    <br /><br />
+    <div class="half chart">
+        <h2 class="text-center">Top Google Services over Past 12 Hours</h2>
+        <div id="google_chart_div"></div>
+    </div>
+
+    <div class="half right chart">
+        <h2 class="text-center">Top Non-Google Services over Past 12 Hours</h2>
+        <div id="nongoogle_chart_div"></div>
+    </div>
+</div>
+
 
 <div id="loading">
     <img id="loadingimg" src="~/images/Loading.gif" />

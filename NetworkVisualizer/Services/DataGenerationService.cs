@@ -38,6 +38,9 @@ namespace NetworkVisualizer.Services
             "github.com",
             "github.io",
             "google.com",
+            "drive.google.com",
+            "classroom.google.com",
+            "docs.google.com",
             "youtube.com"
         };
         private static List<string> Types = new List<string>
@@ -63,7 +66,7 @@ namespace NetworkVisualizer.Services
                 Random rnd = new Random();
 
                 // Generate random packets and add to context
-                int amount = rnd.Next(10, 20);
+                int amount = rnd.Next(100, 200);
                 for (int i = 0; i < amount; i++)
                 {
                     Packet packet = new Packet
