@@ -60,6 +60,18 @@ namespace NetworkVisualizer.Services
                     Key = "Graph3",
                     Value = GenerateDomainDatatableJson("google", false)
                 });
+                _context.Cache.Add(new Cache
+                {
+                    ExpireTime = DateTime.UtcNow.AddDays(1),
+                    Key = "Graph4",
+                    Value = GenerateStatisticsDatatableJson()
+                });
+                _context.Cache.Add(new Cache
+                {
+                    ExpireTime = DateTime.UtcNow.AddDays(1),
+                    Key = "Graph5",
+                    Value = GenerateGamesDatatableJson()
+                });
 
                 _context.SaveChanges();
             }
@@ -157,10 +169,97 @@ namespace NetworkVisualizer.Services
             return dt.GetJson();
         }
 
+        public string GenerateStatisticsDatatableJson()
+        {
+            DataTable dt = new DataTable();
+
+            dt.AddColumn(new Column(ColumnType.String, "Stat", "Stat"));
+            dt.AddColumn(new Column(ColumnType.String, "Value", "Value"));
+            
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
+
+                int uniqueUsers = _context.Packet
+                                 .Where(p => p.Id / 1 == p.Id)
+                                 .GroupBy(q => q.OriginHostname)
+                                 .Select(g => g.Key).ToList().Count;
+
+                dt.AddRow(makeRow(dt, "Packets Today", _context.Packet.ToList().Count.ToString()));
+                dt.AddRow(makeRow(dt, "Total Packets", _context.Packet.Last().Id.ToString()));
+                dt.AddRow(makeRow(dt, "Unique Users", uniqueUsers.ToString()));
+            }
+            
+            return dt.GetJson();
+        }
+
+        public string GenerateGamesDatatableJson()
+        {
+            DataTable dt = new DataTable();
+
+            dt.AddColumn(new Column(ColumnType.String, "Stat", "Stat"));
+            dt.AddColumn(new Column(ColumnType.String, "Value", "Value"));
+
+            List<string> games = new List<string>
+            {
+                "krunker.io",
+                "surviv.io",
+                "2048.io",
+                "tetris.io",
+                "roblox.com",
+                "fortnite.com"
+            };
+
+            List<string> topDomains = new List<string>();
+            List<int> searches = new List<int>();
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var _context = scope.ServiceProvider.GetRequiredService<NetworkVisualizerContext>();
+                topDomains = _context.Packet
+                             .Where(p => games.Contains(p.DestinationHostname))
+                             .GroupBy(q => q.DestinationHostname)
+                             .OrderByDescending(gp => gp.Count())
+                             .Take(10)
+                             .Select(g => g.Key).ToList();
+
+                int numberSearched;
+                foreach (string domain in topDomains)
+                {
+                    numberSearched = (from packet in _context.Packet
+                                        where packet.DestinationHostname == domain
+                                        && DateTime.UtcNow - packet.DateTime <= TimeSpan.FromHours(12)
+                                        select packet).Count();
+                    
+                    searches.Add(numberSearched);
+                }
+            }
+
+            foreach (string domain in topDomains)
+            {
+                Row r = dt.NewRow();
+
+                r.AddCell(new Cell(domain));
+                r.AddCell(new Cell(searches[topDomains.IndexOf(domain)]));
+
+                dt.AddRow(r);
+            }
+
+            return dt.GetJson();
+        }
+
+        private Row makeRow(DataTable dt, string name, string value)
+        {
+            Row r = dt.NewRow();
+
+            r.AddCell(new Cell(name));
+            r.AddCell(new Cell(value));
+
+            return r;
+        }
+
         private List<int> DomainSearches(List<string> domains, DateTime date)
         {
             List<int> searches = new List<int>();
-            int total = 0;
 
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -186,8 +285,7 @@ namespace NetworkVisualizer.Services
                                               && packet.DateTime.Day == date.Day
                                               select packet).Count();
                     }
-                    
-                    total += numberSearched;
+
                     searches.Add(numberSearched);
                 }
             }

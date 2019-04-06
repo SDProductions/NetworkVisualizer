@@ -6,10 +6,10 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     // Load the Visualization API and the corechart package.
-    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.load('current', { 'packages': ['corechart', 'table'] });
     google.charts.setOnLoadCallback(drawChart);
 
-    // Callback that creates and populates a chart
+    // Callback that creates and populates charts
     function drawChart() {
         var options = {
             fontName: "Trebuchet MS",
@@ -55,6 +55,35 @@
         chart = new google.visualization.AreaChart(document.getElementById('nongoogle_chart_div'));
         chart.draw(data, options);
 
+        var tableOptions = {
+            alternatingRowStyle: false,
+            cssClassNames: {
+                headerRow: 'thead',
+                tableRow: 'trow'
+            },
+            width: "100%"
+        };
+
+        jsonData = $.ajax({
+            url: "/Caches/GetLatestGraph/4",
+            dataType: "json",
+            async: false
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
+
+        chart = new google.visualization.Table(document.getElementById('stats_chart_div'));
+        chart.draw(data, tableOptions);
+
+        jsonData = $.ajax({
+            url: "/Caches/GetLatestGraph/5",
+            dataType: "json",
+            async: false
+        }).responseText;
+        var data = new google.visualization.DataTable(jsonData);
+
+        chart = new google.visualization.Table(document.getElementById('games_chart_div'));
+        chart.draw(data, tableOptions);
+
         // Remove the loading icon
         $("#loading").animate({ opacity: 0 }, 1000).promise().done(function () {
             $("#loading").remove();
@@ -62,22 +91,32 @@
     }
 </script>
 
-<div>
-    <h2 class="text-center">Domain Visits over Past 24 Hours</h2>
-    <div id="main_chart_div"></div>
+<h2 class="text-center">Domain Visits over Past 24 Hours</h2>
+<div id="main_chart_div"></div>
 
-    <br /><br />
-    <div class="half chart">
+<br /><br />
+<div class="row">
+    <div class="big left">
         <h2 class="text-center">Top Google Services over Past 12 Hours</h2>
         <div id="google_chart_div"></div>
     </div>
+    <div class="small right">
+        <h2 class="text-center">Statistics</h2>
+        <div id="stats_chart_div"></div>
+    </div>
+</div>
+<br /><br />
 
-    <div class="half right chart">
+<div class="row">
+    <div class="small left">
+        <h2 class="text-center">Top Games</h2>
+        <div id="games_chart_div"></div>
+    </div>
+    <div class="big right">
         <h2 class="text-center">Top Non-Google Services over Past 12 Hours</h2>
         <div id="nongoogle_chart_div"></div>
     </div>
 </div>
-
 
 <div id="loading">
     <img id="loadingimg" src="~/images/Loading.gif" />

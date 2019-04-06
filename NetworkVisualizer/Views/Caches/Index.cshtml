@@ -8,14 +8,21 @@
 <h2>Cache - <a asp-action="Create">Create New</a></h2>
 
 <br />
-@foreach (var item in Model)
-{
-    <h3>@item.ExpireTime.Subtract(TimeSpan.FromDays(1))</h3>
-    <hr />
-    <p>
-        <b>@item.Key</b> -
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> -
-        @item.Value
-    </p>
-    <br />
+@{
+    DateTime lastTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(2));
+    foreach (var item in Model)
+    {
+        if (item.ExpireTime.Minute != lastTime.Minute)
+        {
+            <h3>@item.ExpireTime.AddHours(Config.config.UTCHoursOffset)</h3>
+            <hr />
+            lastTime = item.ExpireTime;
+        }
+        <p>
+            <b>@item.Key</b> -
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> -
+            @item.Value
+        </p>
+        <br />
+    }
 }

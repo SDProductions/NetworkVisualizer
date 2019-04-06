@@ -60,14 +60,30 @@
     width: 100%;
 }
 
-.half {
-    display: block;
-    width: 40vw;
+.left {
     float: left;
 }
 
 .right {
     float: right;
+}
+
+.big {
+    width: 50vw;
+}
+
+.thead {
+    display: none;
+}
+
+.trow {
+    background: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
+}
+
+.small {
+    width: 28vw;
 }
 
 .chart {
@@ -104,7 +120,7 @@ footer p {
 }
 
 /* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
     #banner {
         width: 360px;
     }
@@ -123,10 +139,6 @@ footer p {
     }
     p {
         font-size: 12px;
-    }
-    .half {
-        width: 100%;
-        float: none;
     }
     .login {
         width: 100%;

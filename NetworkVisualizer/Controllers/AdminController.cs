@@ -70,6 +70,26 @@ namespace NetworkVisualizer.Controllers
             return Redirect("~/packets");
         }
 
+        // Delete all packets from specified time (within minute)
+        public IActionResult PacketDeleteFromTime(long? id)
+        {
+            if (!id.HasValue)
+                return NotFound();
+
+            DateTime time = new DateTime(id.Value);
+
+            var packets = from packet in _context.Packet
+                          where packet.DateTime.Day == time.Day &&
+                                packet.DateTime.Hour == time.Hour &&
+                                packet.DateTime.Minute == time.Minute
+                          select packet;
+            _context.Packet.RemoveRange(packets);
+            _context.SaveChanges();
+
+            AddAudit($"Delete - {packets.ToList().Count} packets from time {time.AddHours(NetworkVisualizer.Config.config.UTCHoursOffset)}");
+            return Redirect("~/packets");
+        }
+
         private void AddAudit(string Action)
         {
             var identity = User.Identity as ClaimsIdentity; // Azure AD V2 endpoint specific

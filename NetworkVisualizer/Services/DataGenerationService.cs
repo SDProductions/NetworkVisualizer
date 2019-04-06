@@ -41,7 +41,13 @@ namespace NetworkVisualizer.Services
             "drive.google.com",
             "classroom.google.com",
             "docs.google.com",
-            "youtube.com"
+            "youtube.com",
+            "krunker.io",
+            "surviv.io",
+            "2048.io",
+            "tetris.io",
+            "roblox.com",
+            "fortnite.com"
         };
         private static List<string> Types = new List<string>
         {
