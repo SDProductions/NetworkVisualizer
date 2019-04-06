@@ -85,6 +85,33 @@ namespace NetworkVisualizer.Services
                     _context.Packet.Add(packet);
                 }
 
+                if (Config.config.DataEqualizationEnabled)
+                {
+                    for (int i = 0; i < 24; i++)
+                    {
+                        DateTime targetDateTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(i);
+
+                        int packetCount = _context.Packet.Where(p =>
+                                          p.DateTime.Day == targetDateTime.Day &&
+                                          p.DateTime.Hour == targetDateTime.Hour).Count();
+                        if (packetCount < 1100)
+                        {
+                            for (int n = 0; n < 1100 - packetCount + rnd.Next(100, 600); n++)
+                            {
+                                Packet packet = new Packet
+                                {
+                                    DateTime = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)).AddHours(i),
+                                    PacketType = Types[rnd.Next(0, Types.Count)],
+                                    DestinationHostname = Domains[rnd.Next(0, Domains.Count)],
+                                    OriginHostname = "DataGenerationService"
+                                };
+                                Thread.Sleep(10);
+                                _context.Packet.Add(packet);
+                            }
+                        }
+                    }
+                }
+
                 // Save changes
                 _context.SaveChanges();
             }

@@ -11,6 +11,7 @@ namespace NetworkVisualizer
         {
             public string HttpPostPassword { get; set; }
             public bool DataGenerationEnabled { get; set; }
+            public bool DataEqualizationEnabled { get; set; }
             public int UTCHoursOffset { get; set; }
         }
 
@@ -18,6 +19,7 @@ namespace NetworkVisualizer
         {
             HttpPostPassword = "UberMegaStrongPassword123!!",
             DataGenerationEnabled = true,
+            DataEqualizationEnabled = true,
             UTCHoursOffset = -7
         };
 

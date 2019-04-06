@@ -103,7 +103,7 @@ namespace NetworkVisualizer.Services
             }
 
             // Create datapoints for every hour, starting with 23 hours ago up to now
-            for (int t = 1; t <= 24; t++)
+            for (int t = 0; t <= 24; t++)
             {
                 Row r = dt.NewRow();
                 
