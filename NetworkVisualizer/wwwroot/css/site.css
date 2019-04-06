@@ -14,7 +14,7 @@
     background-color: #ffffff;
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: -100vh;
     left: 0;
     right: 0;
 }
@@ -72,6 +72,10 @@
     width: 50vw;
 }
 
+.small {
+    width: 28vw;
+}
+
 .thead {
     display: none;
 }
@@ -80,10 +84,6 @@
     background: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 20px;
-}
-
-.small {
-    width: 28vw;
 }
 
 .chart {
@@ -139,6 +139,12 @@ footer p {
     }
     p {
         font-size: 12px;
+    }
+    .big {
+        width: 100%;
+    }
+    .small {
+        width: 100%;
     }
     .login {
         width: 100%;

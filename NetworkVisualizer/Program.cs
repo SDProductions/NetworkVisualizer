@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json;
 
 namespace NetworkVisualizer
 {
@@ -10,13 +9,12 @@ namespace NetworkVisualizer
         public static void Main(string[] args)
         {
             // Generate a new config file from default
-            Config.config =
-                new Config.AppConfig
-                {
-                    HttpPostPassword = "HitlerDidNothingWrong.bmp",
-                    DataGenerationEnabled = true,
-                    UTCHoursOffset = -7
-                };
+            Config.config = Config.defaultConfig;
+            Config.stats = new Config.PersistentStats
+            {
+                VisitCount = 0,
+                InitializeTime = DateTime.UtcNow
+            };
 
             CreateWebHostBuilder(args).Build().Run();
         }

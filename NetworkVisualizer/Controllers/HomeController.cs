@@ -21,6 +21,7 @@ namespace NetworkVisualizer.Controllers
         // GET Index: Display main page
         public IActionResult Index()
         {
+            Config.stats.VisitCount++;
             return View();
         }
 
