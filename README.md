@@ -5,7 +5,7 @@ The premises of operation is simple, a device which has two network interfaces, 
 
 It is important to note a few features regarding user experience are missing right now, and that we don't recommend taking this site and running it for yourself just yet. A fluid and complete administrator panel is being implemented currently, but is no where near done and as such knowledge of the app structure is required to modify app behaviour. Code is still mostly unoptimized, although optimizations are being worked on. A full, smooth user experience is also not complete, although being actively worked on. The site is functional, but not necessarily pretty.
 
-However, if you are a judge for the MVHS STEM Fair, we assure you that everything important is done. Really. The site is functional, there is a scalable and dynamic backend, as well as in-depth and customizable statistics. The site scales well across most devices and performs admirably on older ones. 
+This won 3rd place at the Mountain View High School STEM Fair! Pretty cool.
 
 # Forking and cloning this repo
 
