@@ -1,4 +1,6 @@
 # NetworkVisualizer
+[![Build Status](https://travis-ci.com/SDProductions/NetworkVisualizer.svg?branch=master)](https://travis-ci.com/SDProductions/NetworkVisualizer)
+
 NetworkVisualizer is a project co-developed by SDProductions and Aidan Smith. The end goal is to create a fluid, functional, multi-platform and scalable website which can be accessed and will show aggregated statistics and data about a target network. A live demo of the site used to exist, however, due to the requirement of some kind of SQL database for it to function and the sad reality that those cost money, the site is no longer up. Instead, visit [here](http://wisdomduck.azurewebsites.net) for some quality wisdom.
 
 The premises of operation is simple, a device which has two network interfaces, one set to monitoring mode, is deployed and connected to the target network. This device runs the [packet sniffer](https://github.com/AllDoge/Network-Analyzer-Backend) and sends the data via HttpPOST to this website. The data gets added to the database, and it gets displayed on the front page graphs. If you would like more information on how we plan to use the data, you can read our about page below.
