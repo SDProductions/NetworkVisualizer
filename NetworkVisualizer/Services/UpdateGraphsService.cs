@@ -186,7 +186,7 @@ namespace NetworkVisualizer.Services
                                  .Select(g => g.Key).ToList().Count;
 
                 dt.AddRow(makeRow(dt, "Packets Today", _context.Packet.ToList().Count.ToString()));
-                dt.AddRow(makeRow(dt, "Total Packets", _context.Packet.Last().Id.ToString()));
+                //dt.AddRow(makeRow(dt, "Total Packets", _context.Packet.Last().Id.ToString()));
                 dt.AddRow(makeRow(dt, "Unique Users", uniqueUsers.ToString()));
                 dt.AddRow(makeRow(dt, "Total Visits", Config.stats.VisitCount.ToString()));
                 dt.AddRow(makeRow(dt, "Site Uptime", (DateTime.UtcNow - Config.stats.InitializeTime).ToString().Substring(0, 8)));
